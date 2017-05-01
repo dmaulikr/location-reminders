@@ -13,7 +13,26 @@
 		CD1251331EB7AC00008EE4F7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD1251311EB7AC00008EE4F7 /* Main.storyboard */; };
 		CD1251351EB7AC00008EE4F7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CD1251341EB7AC00008EE4F7 /* Assets.xcassets */; };
 		CD1251381EB7AC00008EE4F7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD1251361EB7AC00008EE4F7 /* LaunchScreen.storyboard */; };
+		CD6602A31EB7B2D600883296 /* Carthage in Frameworks */ = {isa = PBXBuildFile; fileRef = CD6602A01EB7B2D600883296 /* Carthage */; };
+		CD6602A41EB7B2D600883296 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD6602A11EB7B2D600883296 /* Parse.framework */; };
+		CD6602A51EB7B2D600883296 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD6602A21EB7B2D600883296 /* Bolts.framework */; };
+		CD6602A71EB7B30700883296 /* Parse.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = CD6602A11EB7B2D600883296 /* Parse.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CD6602A81EB7B31F00883296 /* Bolts.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = CD6602A21EB7B2D600883296 /* Bolts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		CD6602A61EB7B2F200883296 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				CD6602A81EB7B31F00883296 /* Bolts.framework in CopyFiles */,
+				CD6602A71EB7B30700883296 /* Parse.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		CD1251251EB7AC00008EE4F7 /* location-reminders.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "location-reminders.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -26,6 +45,9 @@
 		CD1251341EB7AC00008EE4F7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CD1251371EB7AC00008EE4F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CD1251391EB7AC00008EE4F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CD6602A01EB7B2D600883296 /* Carthage */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Carthage; sourceTree = "<group>"; };
+		CD6602A11EB7B2D600883296 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = Carthage/Build/iOS/Parse.framework; sourceTree = "<group>"; };
+		CD6602A21EB7B2D600883296 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = Carthage/Build/iOS/Bolts.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,6 +55,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD6602A31EB7B2D600883296 /* Carthage in Frameworks */,
+				CD6602A41EB7B2D600883296 /* Parse.framework in Frameworks */,
+				CD6602A51EB7B2D600883296 /* Bolts.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -44,6 +69,7 @@
 			children = (
 				CD1251271EB7AC00008EE4F7 /* location-reminders */,
 				CD1251261EB7AC00008EE4F7 /* Products */,
+				CD66029F1EB7B2D500883296 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -79,6 +105,16 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		CD66029F1EB7B2D500883296 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CD6602A01EB7B2D600883296 /* Carthage */,
+				CD6602A11EB7B2D600883296 /* Parse.framework */,
+				CD6602A21EB7B2D600883296 /* Bolts.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -89,6 +125,7 @@
 				CD1251211EB7AC00008EE4F7 /* Sources */,
 				CD1251221EB7AC00008EE4F7 /* Frameworks */,
 				CD1251231EB7AC00008EE4F7 /* Resources */,
+				CD6602A61EB7B2F200883296 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -276,6 +313,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 6EJN6WTQBM;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = "location-reminders/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.elyaniliranzocastro.location-reminders";
@@ -288,6 +329,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 6EJN6WTQBM;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = "location-reminders/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.elyaniliranzocastro.location-reminders";
@@ -314,6 +359,7 @@
 				CD12513E1EB7AC00008EE4F7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
