@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 
+@import Parse;
 @interface ViewController ()
 
 @end
@@ -16,8 +17,38 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    
+    PFObject *testObject = [PFObject objectWithClassName:@"TestObject"];
+    
+    testObject[@"testName"] = @"Castro";
+    
+    [testObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        if (succeeded){
+            NSLog(@"Success saving test object.");
+        } else {
+            NSLog(@"Failed to save test object. Error: %@",error.localizedDescription);
+        }
+    }];
+    PFQuery *testQuery = [PFQuery queryWithClassName:@"TestObject"];
+    
+    [testQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"%@",error.localizedDescription);
+        } else {
+            NSLog(@"Query Results: %@",objects);
+        }
+    }];
+    
+    //Deleting a PFObject from PFDB
+    [testObject deleteInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        if (succeeded) {
+            NSLog(@"Successfully deleted the testObject.");
+        } else {
+            NSLog(@"Failed to delete the testObject. Error:  %@",error.localizedDescription);
+        }
+    }];
 }
+
 
 
 - (void)didReceiveMemoryWarning {
