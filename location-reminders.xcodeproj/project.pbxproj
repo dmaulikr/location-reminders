@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		CD12512A1EB7AC00008EE4F7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CD1251291EB7AC00008EE4F7 /* main.m */; };
 		CD12512D1EB7AC00008EE4F7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CD12512C1EB7AC00008EE4F7 /* AppDelegate.m */; };
-		CD1251301EB7AC00008EE4F7 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD12512F1EB7AC00008EE4F7 /* ViewController.m */; };
+		CD1251301EB7AC00008EE4F7 /* ViewControlla.m in Sources */ = {isa = PBXBuildFile; fileRef = CD12512F1EB7AC00008EE4F7 /* ViewControlla.m */; };
 		CD1251331EB7AC00008EE4F7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD1251311EB7AC00008EE4F7 /* Main.storyboard */; };
 		CD1251351EB7AC00008EE4F7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CD1251341EB7AC00008EE4F7 /* Assets.xcassets */; };
 		CD1251381EB7AC00008EE4F7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD1251361EB7AC00008EE4F7 /* LaunchScreen.storyboard */; };
@@ -18,6 +18,8 @@
 		CD6602A51EB7B2D600883296 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD6602A21EB7B2D600883296 /* Bolts.framework */; };
 		CD6602A71EB7B30700883296 /* Parse.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = CD6602A11EB7B2D600883296 /* Parse.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CD6602A81EB7B31F00883296 /* Bolts.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = CD6602A21EB7B2D600883296 /* Bolts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CD6602AA1EB7C0C700883296 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD6602A91EB7C0C700883296 /* MapKit.framework */; };
+		CD68EA971EB807BC0095DA34 /* CustomMKPinAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD68EA961EB807BC0095DA34 /* CustomMKPinAnnotationView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -39,8 +41,8 @@
 		CD1251291EB7AC00008EE4F7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		CD12512B1EB7AC00008EE4F7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		CD12512C1EB7AC00008EE4F7 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		CD12512E1EB7AC00008EE4F7 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		CD12512F1EB7AC00008EE4F7 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		CD12512E1EB7AC00008EE4F7 /* ViewControlla.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewControlla.h; sourceTree = "<group>"; };
+		CD12512F1EB7AC00008EE4F7 /* ViewControlla.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewControlla.m; sourceTree = "<group>"; };
 		CD1251321EB7AC00008EE4F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		CD1251341EB7AC00008EE4F7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CD1251371EB7AC00008EE4F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -48,6 +50,9 @@
 		CD6602A01EB7B2D600883296 /* Carthage */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Carthage; sourceTree = "<group>"; };
 		CD6602A11EB7B2D600883296 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = Carthage/Build/iOS/Parse.framework; sourceTree = "<group>"; };
 		CD6602A21EB7B2D600883296 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = Carthage/Build/iOS/Bolts.framework; sourceTree = "<group>"; };
+		CD6602A91EB7C0C700883296 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		CD68EA951EB807BC0095DA34 /* CustomMKPinAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomMKPinAnnotationView.h; sourceTree = "<group>"; };
+		CD68EA961EB807BC0095DA34 /* CustomMKPinAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomMKPinAnnotationView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +62,7 @@
 			files = (
 				CD6602A31EB7B2D600883296 /* Carthage in Frameworks */,
 				CD6602A41EB7B2D600883296 /* Parse.framework in Frameworks */,
+				CD6602AA1EB7C0C700883296 /* MapKit.framework in Frameworks */,
 				CD6602A51EB7B2D600883296 /* Bolts.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -86,10 +92,10 @@
 			children = (
 				CD12512B1EB7AC00008EE4F7 /* AppDelegate.h */,
 				CD12512C1EB7AC00008EE4F7 /* AppDelegate.m */,
-				CD12512E1EB7AC00008EE4F7 /* ViewController.h */,
-				CD12512F1EB7AC00008EE4F7 /* ViewController.m */,
+				CD68EA941EB7F1530095DA34 /* view */,
 				CD1251311EB7AC00008EE4F7 /* Main.storyboard */,
 				CD1251341EB7AC00008EE4F7 /* Assets.xcassets */,
+				CD68EA9B1EB811350095DA34 /* categories */,
 				CD1251361EB7AC00008EE4F7 /* LaunchScreen.storyboard */,
 				CD1251391EB7AC00008EE4F7 /* Info.plist */,
 				CD1251281EB7AC00008EE4F7 /* Supporting Files */,
@@ -108,11 +114,30 @@
 		CD66029F1EB7B2D500883296 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CD6602A91EB7C0C700883296 /* MapKit.framework */,
 				CD6602A01EB7B2D600883296 /* Carthage */,
 				CD6602A11EB7B2D600883296 /* Parse.framework */,
 				CD6602A21EB7B2D600883296 /* Bolts.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CD68EA941EB7F1530095DA34 /* view */ = {
+			isa = PBXGroup;
+			children = (
+				CD12512E1EB7AC00008EE4F7 /* ViewControlla.h */,
+				CD12512F1EB7AC00008EE4F7 /* ViewControlla.m */,
+				CD68EA951EB807BC0095DA34 /* CustomMKPinAnnotationView.h */,
+				CD68EA961EB807BC0095DA34 /* CustomMKPinAnnotationView.m */,
+			);
+			name = view;
+			sourceTree = "<group>";
+		};
+		CD68EA9B1EB811350095DA34 /* categories */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = categories;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -149,6 +174,11 @@
 						CreatedOnToolsVersion = 8.3.2;
 						DevelopmentTeam = 6EJN6WTQBM;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -188,7 +218,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CD1251301EB7AC00008EE4F7 /* ViewController.m in Sources */,
+				CD68EA971EB807BC0095DA34 /* CustomMKPinAnnotationView.m in Sources */,
+				CD1251301EB7AC00008EE4F7 /* ViewControlla.m in Sources */,
 				CD12512D1EB7AC00008EE4F7 /* AppDelegate.m in Sources */,
 				CD12512A1EB7AC00008EE4F7 /* main.m in Sources */,
 			);
