@@ -10,17 +10,20 @@
 
 #import "AddReminderViewControlla.h"
 
+#import "LocationControllerDelegate.h"
+
 #import "CustomMKPinAnnotationView.h"
+
+#import "LocationControlla.h"
 
 
 @import Parse;
 @import MapKit;
 
 
-@interface HomeViewControlla () <MKMapViewDelegate, CLLocationManagerDelegate>
+@interface HomeViewControlla () <MKMapViewDelegate, LocationControllerDelegate>
 
 
-@property (strong, nonatomic) CLLocationManager *locationManager;
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 
 @end
@@ -34,16 +37,10 @@
         
         NSLog(@"The coordinate of tapped location: Lat:%f Lon: %f", coordinate.latitude, coordinate.longitude);
         
-        MKPointAnnotation * newPoint = [[MKPointAnnotation alloc]init];
         
-        newPoint.coordinate = coordinate;
-        
-        newPoint.title = @"Title";
-    }
-    
+        [self setCustomAnnotationsWithTitle:@"Reminder" andLatitude:coordinate.latitude AndLongitude:coordinate.longitude];
 
-    
-    
+    }
 }
 
 - (IBAction)selectMapType:(UISegmentedControl *)sender {
@@ -65,21 +62,18 @@
 - (IBAction)segmentedControl:(UISegmentedControl *)sender {
     switch (sender.selectedSegmentIndex){
         case 0:
-            NSLog(@"Selected Mount Rushmore");
             [self setLocationWithLatitude:43.8791 AndLongitude:-103.4591];
             [self setCustomAnnotationsWithTitle:@"Mount Rushmore"
                                     andLatitude:43.8791
                                    AndLongitude:-103.4591];
             break;
         case 1:
-            NSLog(@"Selected Hollywood");
             [self setLocationWithLatitude:34.0928 AndLongitude:-118.3287];
             [self setCustomAnnotationsWithTitle:@"Hollywood"
                                     andLatitude:34.0928
                                    AndLongitude:-118.3287];
             break;
         case 2:
-            NSLog(@"Selected Eiffel Tower");
             [self setLocationWithLatitude:48.8584 AndLongitude:2.2945];
             [self setCustomAnnotationsWithTitle:@"Eiffel Tower"
                                     andLatitude:48.8584
@@ -92,29 +86,31 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self requestPermissions];
+    
     [[self mapView] setDelegate: self];
+    
     [[self mapView] setShowsUserLocation:YES];
     
-    [self setLocationWithLatitude:self.mapView.userLocation.coordinate.latitude
-                     AndLongitude:self.mapView.userLocation.coordinate.longitude];
+    
+    
+    [LocationControlla shared].delegate = self;
+
+
+}
+
+#pragma LocationControllerDelegate
+
+-(void)locationControllerUpdatedLocation:(CLLocation *)location{
+    [self setLocationWithLatitude:location.coordinate.latitude AndLongitude:location.coordinate.longitude];
+    NSLog(@"locationController: lat: %2f lon: %2f",location.coordinate.latitude, location.coordinate.longitude);
 }
 
 
 #pragma MapKit helper methods
--(void)requestPermissions {
-    self.locationManager = [[CLLocationManager alloc]init];
-    [[self locationManager] setDelegate:self];
-    [[self locationManager] setDesiredAccuracy:kCLLocationAccuracyBest];
-    [[self locationManager] setDistanceFilter:100]; //Meters
-    [[self locationManager] requestAlwaysAuthorization];
-    [[self locationManager] startUpdatingLocation];
-    
-}
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     [super prepareForSegue:segue sender:sender];
     if ([[segue identifier] isEqualToString:@"AddReminderViewControlla"] && [sender isKindOfClass:[MKAnnotationView class]]) {
-        MKAnnotationView *annotationView = (MKAnnotationView *)sender;
+        CustomMKPinAnnotationView *annotationView = (CustomMKPinAnnotationView *)sender;
         AddReminderViewControlla *destinationController = (AddReminderViewControlla *)segue.destinationViewController;
         [destinationController setCoordinate:annotationView.annotation.coordinate];
         [destinationController setAnnotationTitle:annotationView.annotation.title];
@@ -157,21 +153,6 @@
     
 }
 
--(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations{
-    CLLocation *location = [locations lastObject];
-    
-    
-    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(location.coordinate, 500.0, 500.0);
-    
-    [[self mapView] setRegion:region animated:YES];
-}
-
--(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error{
-    if (error) {
-        NSLog(@"Failed to find location : %@", error.localizedDescription);
-    }
-}
-
 
 -(void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control{
     NSLog(@"The callout button associated with %@", view.annotation.title);
@@ -180,7 +161,6 @@
 
 
 -(MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation{
-    NSLog(@"Inside of viewForAnnotation:");
     
     if ([annotation isKindOfClass:[MKUserLocation class]]) {
         return nil;
@@ -192,38 +172,6 @@
     [myAnnotationView setAnimatesDrop:YES];
     return myAnnotationView;
 }
-
-
-//
-//    PFObject *testObject = [PFObject objectWithClassName:@"TestObject"];
-//
-//    testObject[@"testName"] = @"Castro";
-//
-//    [testObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-//        if (succeeded){
-//            NSLog(@"Success saving test object.");
-//        } else {
-//            NSLog(@"Failed to save test object. Error: %@",error.localizedDescription);
-//        }
-//    }];
-//    PFQuery *testQuery = [PFQuery queryWithClassName:@"TestObject"];
-//
-//    [testQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-//        if (error) {
-//            NSLog(@"%@",error.localizedDescription);
-//        } else {
-//            NSLog(@"Query Results: %@",objects);
-//        }
-//    }];
-//
-//    //Deleting a PFObject from PFDB
-//    [testObject deleteInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-//        if (succeeded) {
-//            NSLog(@"Successfully deleted the testObject.");
-//        } else {
-//            NSLog(@"Failed to delete the testObject. Error:  %@",error.localizedDescription);
-//        }
-//    }];
 
 
 @end

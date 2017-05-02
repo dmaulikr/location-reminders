@@ -9,6 +9,8 @@
 #import "AddReminderViewControlla.h"
 
 @interface AddReminderViewControlla ()
+@property (weak, nonatomic) IBOutlet UITextField *reminderName;
+@property (weak, nonatomic) IBOutlet UITextField *reminderRadius;
 
 @end
 

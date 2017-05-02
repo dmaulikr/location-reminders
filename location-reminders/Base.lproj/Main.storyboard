@@ -92,12 +92,41 @@
                     <view key="view" contentMode="scaleToFill" id="lYD-YE-axw">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Reminder Radius" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nES-y5-mJg">
+                                <rect key="frame" x="63" y="245" width="248" height="30"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" notEnabled="YES"/>
+                                </accessibility>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Reminder Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ffb-aH-gqS">
+                                <rect key="frame" x="63" y="139" width="248" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no"/>
+                            </textField>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="ffb-aH-gqS" secondAttribute="trailing" constant="64" id="CAU-KQ-E5r"/>
+                            <constraint firstItem="nES-y5-mJg" firstAttribute="top" secondItem="ffb-aH-gqS" secondAttribute="bottom" constant="76" id="G3c-eQ-3RI"/>
+                            <constraint firstItem="ffb-aH-gqS" firstAttribute="leading" secondItem="lYD-YE-axw" secondAttribute="leading" constant="63" id="PBh-it-pN6"/>
+                            <constraint firstItem="ffb-aH-gqS" firstAttribute="top" secondItem="ycO-Yb-o1u" secondAttribute="bottom" constant="75" id="i5v-zP-meX"/>
+                            <constraint firstAttribute="trailing" secondItem="nES-y5-mJg" secondAttribute="trailing" constant="64" id="mCg-yK-ZGl"/>
+                            <constraint firstItem="nES-y5-mJg" firstAttribute="leading" secondItem="lYD-YE-axw" secondAttribute="leading" constant="63" id="tw6-5L-nBQ"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="reminderName" destination="ffb-aH-gqS" id="EqJ-53-CIm"/>
+                        <outlet property="reminderRadius" destination="nES-y5-mJg" id="3Le-Rr-GE2"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZAA-Pe-xwR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1909" y="148"/>
+            <point key="canvasLocation" x="1908" y="147.97601199400302"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="5xo-TC-sH3">
