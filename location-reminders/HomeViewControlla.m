@@ -7,6 +7,9 @@
 //
 
 #import "HomeViewControlla.h"
+
+#import "AddReminderViewControlla.h"
+
 #import "CustomMKPinAnnotationView.h"
 
 
@@ -23,6 +26,26 @@
 @end
 
 @implementation HomeViewControlla
+- (IBAction)dropPin:(UILongPressGestureRecognizer *)sender {
+    if (sender.state == UIGestureRecognizerStateBegan) {
+        CGPoint point = [sender locationInView:self.mapView];
+        
+        CLLocationCoordinate2D coordinate = [self.mapView convertPoint:point toCoordinateFromView:self.view];
+        
+        NSLog(@"The coordinate of tapped location: Lat:%f Lon: %f", coordinate.latitude, coordinate.longitude);
+        
+        MKPointAnnotation * newPoint = [[MKPointAnnotation alloc]init];
+        
+        newPoint.coordinate = coordinate;
+        
+        newPoint.title = @"Title";
+    }
+    
+
+    
+    
+}
+
 - (IBAction)selectMapType:(UISegmentedControl *)sender {
     switch (sender.selectedSegmentIndex){
         case 0:
@@ -44,17 +67,23 @@
         case 0:
             NSLog(@"Selected Mount Rushmore");
             [self setLocationWithLatitude:43.8791 AndLongitude:-103.4591];
-            [self setCustomAnnotationsWithTitle:@"Mount Rushmore" andLatitude:43.8791 AndLongitude:-103.4591];
+            [self setCustomAnnotationsWithTitle:@"Mount Rushmore"
+                                    andLatitude:43.8791
+                                   AndLongitude:-103.4591];
             break;
         case 1:
             NSLog(@"Selected Hollywood");
             [self setLocationWithLatitude:34.0928 AndLongitude:-118.3287];
-            [self setCustomAnnotationsWithTitle:@"Hollywood" andLatitude:34.0928 AndLongitude:-118.3287];
+            [self setCustomAnnotationsWithTitle:@"Hollywood"
+                                    andLatitude:34.0928
+                                   AndLongitude:-118.3287];
             break;
         case 2:
             NSLog(@"Selected Eiffel Tower");
             [self setLocationWithLatitude:48.8584 AndLongitude:2.2945];
-            [self setCustomAnnotationsWithTitle:@"Eiffel Tower" andLatitude:48.8584 AndLongitude:2.2945];
+            [self setCustomAnnotationsWithTitle:@"Eiffel Tower"
+                                    andLatitude:48.8584
+                                   AndLongitude:2.2945];
         default:
             break;
             
@@ -67,7 +96,8 @@
     [[self mapView] setDelegate: self];
     [[self mapView] setShowsUserLocation:YES];
     
-    [self setLocationWithLatitude:self.mapView.userLocation.coordinate.latitude AndLongitude:self.mapView.userLocation.coordinate.longitude];
+    [self setLocationWithLatitude:self.mapView.userLocation.coordinate.latitude
+                     AndLongitude:self.mapView.userLocation.coordinate.longitude];
 }
 
 
@@ -80,6 +110,16 @@
     [[self locationManager] requestAlwaysAuthorization];
     [[self locationManager] startUpdatingLocation];
     
+}
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    [super prepareForSegue:segue sender:sender];
+    if ([[segue identifier] isEqualToString:@"AddReminderViewControlla"] && [sender isKindOfClass:[MKAnnotationView class]]) {
+        MKAnnotationView *annotationView = (MKAnnotationView *)sender;
+        AddReminderViewControlla *destinationController = (AddReminderViewControlla *)segue.destinationViewController;
+        [destinationController setCoordinate:annotationView.annotation.coordinate];
+        [destinationController setAnnotationTitle:annotationView.annotation.title];
+        [destinationController setTitle:@"Add Reminder"];
+    }
 }
 
 -(void)setLocationWithLatitude:(CGFloat)latitude AndLongitude:(CGFloat)longitude{
@@ -117,15 +157,6 @@
     
 }
 
--(MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation{
-    NSLog(@"Inside of viewForAnnotation:");
-    CustomMKPinAnnotationView *myAnnotationView = (CustomMKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:@"annotation"];
-    if (!myAnnotationView){
-        myAnnotationView = [[CustomMKPinAnnotationView alloc] initWithTitle:annotation.title withAnnotation:annotation];
-    }
-    return myAnnotationView;
-}
-
 -(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations{
     CLLocation *location = [locations lastObject];
     
@@ -136,14 +167,31 @@
 }
 
 -(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error{
-    
+    if (error) {
+        NSLog(@"Failed to find location : %@", error.localizedDescription);
+    }
 }
+
 
 -(void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control{
-    CustomMKPinAnnotationView * pinAnnotation = (CustomMKPinAnnotationView *)view;
-    NSLog(@"The callout button associated with %@",pinAnnotation);
+    NSLog(@"The callout button associated with %@", view.annotation.title);
+    [self performSegueWithIdentifier:@"AddReminderViewControlla" sender:view];
 }
 
+
+-(MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation{
+    NSLog(@"Inside of viewForAnnotation:");
+    
+    if ([annotation isKindOfClass:[MKUserLocation class]]) {
+        return nil;
+    }
+    CustomMKPinAnnotationView *myAnnotationView = (CustomMKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:@"annotation"];
+    if (!myAnnotationView){
+        myAnnotationView = [[CustomMKPinAnnotationView alloc] initWithTitle:annotation.title withAnnotation:annotation];
+    }
+    [myAnnotationView setAnimatesDrop:YES];
+    return myAnnotationView;
+}
 
 
 //
