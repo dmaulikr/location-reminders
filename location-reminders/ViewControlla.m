@@ -19,7 +19,6 @@
 
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
-@property (strong, nonatomic) NSMutableSet *coordinateSet;
 
 @end
 
@@ -91,19 +90,28 @@
 
 
 -(void)setCustomAnnotationsWithTitle:(NSString *)title andLatitude:(CGFloat)latitude AndLongitude:(CGFloat)longitude {
+    
     CLLocationCoordinate2D coordinates = CLLocationCoordinate2DMake(latitude, longitude);
-    MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
-    annotation.coordinate = coordinates;
-    annotation.title = title; 
-    if (![self.coordinateSet containsObject:annotation.title]) {
-        [self.mapView addAnnotation:annotation];
-        [self.mapView selectAnnotation:annotation animated:YES];
+    
+    MKPointAnnotation *annotation;
+    
+    BOOL hasAnnotation = NO;
+    for (MKPointAnnotation *a in self.mapView.annotations) {
+        if ((a.coordinate.latitude == coordinates.latitude) && (a.coordinate.longitude == coordinates.longitude)) {
+            annotation = a;
+            hasAnnotation = YES;
+        }
     }
-    
-    [self.coordinateSet addObject:annotation.title];
-    
+    if (!hasAnnotation) {
+        annotation = [[MKPointAnnotation alloc] init];
+        annotation.coordinate = coordinates;
+        annotation.title = title;
+        [self.mapView addAnnotation:annotation];
+    }
+    [self.mapView selectAnnotation:annotation animated:YES];
     
 }
+
 -(MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation{
     NSLog(@"Inside of viewForAnnotation:");
     CustomMKPinAnnotationView *myAnnotationView = (CustomMKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:@"annotation"];
