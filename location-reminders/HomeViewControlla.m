@@ -6,7 +6,7 @@
 //  Copyright © 2017 Elyanil Liranzo Castro. All rights reserved.
 //
 
-#import "ViewControlla.h"
+#import "HomeViewControlla.h"
 #import "CustomMKPinAnnotationView.h"
 
 
@@ -14,7 +14,7 @@
 @import MapKit;
 
 
-@interface ViewControlla () <MKMapViewDelegate>
+@interface HomeViewControlla () <MKMapViewDelegate, CLLocationManagerDelegate>
 
 
 @property (strong, nonatomic) CLLocationManager *locationManager;
@@ -22,7 +22,7 @@
 
 @end
 
-@implementation ViewControlla
+@implementation HomeViewControlla
 - (IBAction)selectMapType:(UISegmentedControl *)sender {
     switch (sender.selectedSegmentIndex){
         case 0:
@@ -43,17 +43,17 @@
     switch (sender.selectedSegmentIndex){
         case 0:
             NSLog(@"Selected Mount Rushmore");
-            [self locationPressed:43.8791 AndLongitude:-103.4591];
+            [self setLocationWithLatitude:43.8791 AndLongitude:-103.4591];
             [self setCustomAnnotationsWithTitle:@"Mount Rushmore" andLatitude:43.8791 AndLongitude:-103.4591];
             break;
         case 1:
             NSLog(@"Selected Hollywood");
-            [self locationPressed:34.0928 AndLongitude:-118.3287];
+            [self setLocationWithLatitude:34.0928 AndLongitude:-118.3287];
             [self setCustomAnnotationsWithTitle:@"Hollywood" andLatitude:34.0928 AndLongitude:-118.3287];
             break;
         case 2:
             NSLog(@"Selected Eiffel Tower");
-            [self locationPressed:48.8584 AndLongitude:2.2945];
+            [self setLocationWithLatitude:48.8584 AndLongitude:2.2945];
             [self setCustomAnnotationsWithTitle:@"Eiffel Tower" andLatitude:48.8584 AndLongitude:2.2945];
         default:
             break;
@@ -64,20 +64,25 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self requestPermissions];
-    self.coordinateSet = [[NSMutableSet alloc]init];
-    self.mapView.delegate = self;
+    [[self mapView] setDelegate: self];
     [[self mapView] setShowsUserLocation:YES];
+    
+    [self setLocationWithLatitude:self.mapView.userLocation.coordinate.latitude AndLongitude:self.mapView.userLocation.coordinate.longitude];
 }
 
 
 #pragma MapKit helper methods
 -(void)requestPermissions {
     self.locationManager = [[CLLocationManager alloc]init];
-    [self.locationManager requestAlwaysAuthorization];
+    [[self locationManager] setDelegate:self];
+    [[self locationManager] setDesiredAccuracy:kCLLocationAccuracyBest];
+    [[self locationManager] setDistanceFilter:100]; //Meters
+    [[self locationManager] requestAlwaysAuthorization];
+    [[self locationManager] startUpdatingLocation];
     
 }
 
--(void)locationPressed:(CGFloat)latitude AndLongitude:(CGFloat)longitude{
+-(void)setLocationWithLatitude:(CGFloat)latitude AndLongitude:(CGFloat)longitude{
 
     CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(latitude, longitude);
     MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(coordinate, 500.00, 500.00);
@@ -104,11 +109,11 @@
     }
     if (!hasAnnotation) {
         annotation = [[MKPointAnnotation alloc] init];
-        annotation.coordinate = coordinates;
-        annotation.title = title;
-        [self.mapView addAnnotation:annotation];
+        [annotation setCoordinate: coordinates];
+        [annotation setTitle: title];
+        [[self mapView] addAnnotation:annotation];
     }
-    [self.mapView selectAnnotation:annotation animated:YES];
+    [[self mapView] selectAnnotation:annotation animated:YES];
     
 }
 
@@ -120,6 +125,26 @@
     }
     return myAnnotationView;
 }
+
+-(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations{
+    CLLocation *location = [locations lastObject];
+    
+    
+    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(location.coordinate, 500.0, 500.0);
+    
+    [[self mapView] setRegion:region animated:YES];
+}
+
+-(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error{
+    
+}
+
+-(void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control{
+    CustomMKPinAnnotationView * pinAnnotation = (CustomMKPinAnnotationView *)view;
+    NSLog(@"The callout button associated with %@",pinAnnotation);
+}
+
+
 
 //
 //    PFObject *testObject = [PFObject objectWithClassName:@"TestObject"];

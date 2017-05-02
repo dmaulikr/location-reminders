@@ -9,10 +9,11 @@
 /* Begin PBXBuildFile section */
 		CD12512A1EB7AC00008EE4F7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CD1251291EB7AC00008EE4F7 /* main.m */; };
 		CD12512D1EB7AC00008EE4F7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CD12512C1EB7AC00008EE4F7 /* AppDelegate.m */; };
-		CD1251301EB7AC00008EE4F7 /* ViewControlla.m in Sources */ = {isa = PBXBuildFile; fileRef = CD12512F1EB7AC00008EE4F7 /* ViewControlla.m */; };
+		CD1251301EB7AC00008EE4F7 /* HomeViewControlla.m in Sources */ = {isa = PBXBuildFile; fileRef = CD12512F1EB7AC00008EE4F7 /* HomeViewControlla.m */; };
 		CD1251331EB7AC00008EE4F7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD1251311EB7AC00008EE4F7 /* Main.storyboard */; };
 		CD1251351EB7AC00008EE4F7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CD1251341EB7AC00008EE4F7 /* Assets.xcassets */; };
 		CD1251381EB7AC00008EE4F7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD1251361EB7AC00008EE4F7 /* LaunchScreen.storyboard */; };
+		CD2ACF641EB8FF06005C1383 /* AddReminderViewControlla.m in Sources */ = {isa = PBXBuildFile; fileRef = CD2ACF631EB8FF06005C1383 /* AddReminderViewControlla.m */; };
 		CD6602A31EB7B2D600883296 /* Carthage in Frameworks */ = {isa = PBXBuildFile; fileRef = CD6602A01EB7B2D600883296 /* Carthage */; };
 		CD6602A41EB7B2D600883296 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD6602A11EB7B2D600883296 /* Parse.framework */; };
 		CD6602A51EB7B2D600883296 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD6602A21EB7B2D600883296 /* Bolts.framework */; };
@@ -41,12 +42,14 @@
 		CD1251291EB7AC00008EE4F7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		CD12512B1EB7AC00008EE4F7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		CD12512C1EB7AC00008EE4F7 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		CD12512E1EB7AC00008EE4F7 /* ViewControlla.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewControlla.h; sourceTree = "<group>"; };
-		CD12512F1EB7AC00008EE4F7 /* ViewControlla.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewControlla.m; sourceTree = "<group>"; };
+		CD12512E1EB7AC00008EE4F7 /* HomeViewControlla.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeViewControlla.h; sourceTree = "<group>"; };
+		CD12512F1EB7AC00008EE4F7 /* HomeViewControlla.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomeViewControlla.m; sourceTree = "<group>"; };
 		CD1251321EB7AC00008EE4F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		CD1251341EB7AC00008EE4F7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CD1251371EB7AC00008EE4F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CD1251391EB7AC00008EE4F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CD2ACF621EB8FF06005C1383 /* AddReminderViewControlla.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddReminderViewControlla.h; sourceTree = "<group>"; };
+		CD2ACF631EB8FF06005C1383 /* AddReminderViewControlla.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddReminderViewControlla.m; sourceTree = "<group>"; };
 		CD6602A01EB7B2D600883296 /* Carthage */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Carthage; sourceTree = "<group>"; };
 		CD6602A11EB7B2D600883296 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = Carthage/Build/iOS/Parse.framework; sourceTree = "<group>"; };
 		CD6602A21EB7B2D600883296 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = Carthage/Build/iOS/Bolts.framework; sourceTree = "<group>"; };
@@ -125,8 +128,10 @@
 		CD68EA941EB7F1530095DA34 /* view */ = {
 			isa = PBXGroup;
 			children = (
-				CD12512E1EB7AC00008EE4F7 /* ViewControlla.h */,
-				CD12512F1EB7AC00008EE4F7 /* ViewControlla.m */,
+				CD12512E1EB7AC00008EE4F7 /* HomeViewControlla.h */,
+				CD2ACF621EB8FF06005C1383 /* AddReminderViewControlla.h */,
+				CD2ACF631EB8FF06005C1383 /* AddReminderViewControlla.m */,
+				CD12512F1EB7AC00008EE4F7 /* HomeViewControlla.m */,
 				CD68EA951EB807BC0095DA34 /* CustomMKPinAnnotationView.h */,
 				CD68EA961EB807BC0095DA34 /* CustomMKPinAnnotationView.m */,
 			);
@@ -219,7 +224,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				CD68EA971EB807BC0095DA34 /* CustomMKPinAnnotationView.m in Sources */,
-				CD1251301EB7AC00008EE4F7 /* ViewControlla.m in Sources */,
+				CD1251301EB7AC00008EE4F7 /* HomeViewControlla.m in Sources */,
+				CD2ACF641EB8FF06005C1383 /* AddReminderViewControlla.m in Sources */,
 				CD12512D1EB7AC00008EE4F7 /* AppDelegate.m in Sources */,
 				CD12512A1EB7AC00008EE4F7 /* main.m in Sources */,
 			);
