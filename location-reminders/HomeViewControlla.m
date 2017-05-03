@@ -86,7 +86,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    [[self navigationItem] setTitle:@"Home"];
     [[self mapView] setDelegate: self];
     
     [[self mapView] setShowsUserLocation:YES];
@@ -114,6 +114,7 @@
         AddReminderViewControlla *destinationController = (AddReminderViewControlla *)segue.destinationViewController;
         [destinationController setCoordinate:annotationView.annotation.coordinate];
         [destinationController setAnnotationTitle:annotationView.annotation.title];
+        
         [destinationController setTitle:@"Add Reminder"];
     }
 }
