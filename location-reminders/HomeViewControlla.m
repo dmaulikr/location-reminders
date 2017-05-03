@@ -115,7 +115,7 @@
         [destinationController setCoordinate:annotationView.annotation.coordinate];
         [destinationController setAnnotationTitle:annotationView.annotation.title];
         
-        [destinationController setTitle:@"Add Reminder"];
+        [destinationController setTitle:@"New Location"];
     }
 }
 
