@@ -7,6 +7,7 @@
 //
 
 #import "AddReminderViewControlla.h"
+#import "Reminder.h"
 
 @interface AddReminderViewControlla ()
 @property (weak, nonatomic) IBOutlet UITextField *reminderName;
@@ -18,10 +19,11 @@
 
 - (void)viewDidLoad {
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc]initWithTitle:@"Submit" style:UIBarButtonItemStyleDone target:self action:@selector(popViewControllerAnimated:)];
+    
     [[self navigationItem] setRightBarButtonItem:doneButton];
     [super viewDidLoad];
-    NSLog(@"Inside of AddReminderViewControlla%@",self.annotationTitle);
-    NSLog(@"Coordinates: %f, %f",self.coordinate.latitude, self.coordinate.longitude);
+
+    
     // Do any additional setup after loading the view.
 }
 
@@ -30,4 +32,25 @@
 }
 
 
+-(void)createReminder{
+    Reminder *reminder = [Reminder object];
+    
+    reminder.name = self.annotationTitle;
+    reminder.location = [PFGeoPoint geoPointWithLatitude:self.coordinate.latitude longitude:self.coordinate.longitude];
+    
+    [reminder saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        if (succeeded) {
+            NSLog(@"Reminder successfully saved: title %@",reminder.name);
+            NSLog(@"Reminder successfully saved: geopoint lat:%f lon:%f",reminder.location.latitude,reminder.location.longitude);
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ReminderSavedToParse" object:nil];
+        } else {
+            NSLog(@"Failed to save reminder: Error %@",error.localizedDescription);
+        }
+        if ([self completion]) {
+            CGFloat radius = 100; //for lab; radius comes from user
+            MKCircle *circle = [MKCircle circleWithCenterCoordinate:self.coordinate radius:radius];
+            self.completion(circle);
+        }
+    }];
+}
 @end

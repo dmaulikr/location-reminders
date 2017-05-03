@@ -10,8 +10,8 @@
 
 @import CoreLocation;
 
-@protocol LocationControllerDelegate <NSObject>
+@protocol LocationControllaDelegate <NSObject>
 
--(void)locationControllerUpdatedLocation:(CLLocation *)location;
+-(void)locationControllaUpdatedLocation:(CLLocation *)location;
 
 @end

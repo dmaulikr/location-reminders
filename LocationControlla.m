@@ -38,7 +38,8 @@
     
     [[self locationManager] requestAlwaysAuthorization];
     
-    self.locationManager.delegate = self;
+    [[self locationManager]setDelegate:self];
+    
     
     [[self locationManager] setDesiredAccuracy:kCLLocationAccuracyBest];
     
@@ -50,7 +51,7 @@
 
 -(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations{
     CLLocation *location = [locations lastObject];
-    [self.delegate locationControllerUpdatedLocation:location];
+    [self.delegate locationControllaUpdatedLocation:location];
 }
 
 -(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error{

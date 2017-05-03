@@ -10,7 +10,7 @@
 
 #import "AddReminderViewControlla.h"
 
-#import "LocationControllerDelegate.h"
+#import "LocationControllaDelegate.h"
 
 #import "CustomMKPinAnnotationView.h"
 
@@ -21,7 +21,7 @@
 @import MapKit;
 
 
-@interface HomeViewControlla () <MKMapViewDelegate, LocationControllerDelegate>
+@interface HomeViewControlla () <MKMapViewDelegate, LocationControllaDelegate>
 
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
@@ -86,21 +86,23 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [[self navigationItem] setTitle:@"Home"];
+    [[self navigationItem] setTitle:@"Location Reminders"];
     [[self mapView] setDelegate: self];
     
     [[self mapView] setShowsUserLocation:YES];
-    
-    
-    
+
     [LocationControlla shared].delegate = self;
-
-
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reminderSavedToParse:) name:@"ReminderSavedToParse" object:nil];
 }
 
-#pragma LocationControllerDelegate
+-(void)reminderSavedToParse:(id)sender{
+    NSLog(@"New reminder saved to Parse: %@",sender);
+}
 
--(void)locationControllerUpdatedLocation:(CLLocation *)location{
+#pragma LocationControllaDelegate
+
+-(void)locationControllaUpdatedLocation:(CLLocation *)location{
     [self setLocationWithLatitude:location.coordinate.latitude AndLongitude:location.coordinate.longitude];
     NSLog(@"locationController: lat: %2f lon: %2f",location.coordinate.latitude, location.coordinate.longitude);
 }
@@ -116,8 +118,27 @@
         [destinationController setAnnotationTitle:annotationView.annotation.title];
         
         [destinationController setTitle:@"New Location"];
+        
+        //create a weak connection
+        //This is used only when refencing self in the completion block; Avoid retain cycle (circular reference)
+        __weak typeof(self) bruce = self;
+        destinationController.completion = ^(MKCircle *circle) {
+            __strong typeof(bruce) hulk = bruce;
+            [[hulk mapView] removeAnnotation:annotationView.annotation];
+            [[hulk mapView] addOverlay:circle];
+            
+        };
     }
 }
+
+
+#pragma override dealloc as part of NSNotificationCenter
+
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ReminderSavedToParse" object:nil];
+}
+
+
 
 -(void)setLocationWithLatitude:(CGFloat)latitude AndLongitude:(CGFloat)longitude{
 
@@ -172,6 +193,15 @@
     }
     [myAnnotationView setAnimatesDrop:YES];
     return myAnnotationView;
+}
+
+-(MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay{
+    MKCircleRenderer *renderer = [[MKCircleRenderer alloc] initWithCircle:overlay];
+    
+    [renderer setStrokeColor:[UIColor blueColor]];
+    [renderer setFillColor:[UIColor redColor]];
+    [renderer setAlpha:0.5];
+    return renderer;
 }
 
 

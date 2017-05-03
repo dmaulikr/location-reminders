@@ -22,6 +22,7 @@
 		CD6602A81EB7B31F00883296 /* Bolts.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = CD6602A21EB7B2D600883296 /* Bolts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CD6602AA1EB7C0C700883296 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD6602A91EB7C0C700883296 /* MapKit.framework */; };
 		CD68EA971EB807BC0095DA34 /* CustomMKPinAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD68EA961EB807BC0095DA34 /* CustomMKPinAnnotationView.m */; };
+		CDAAA3491EBA464E0098F48A /* Reminder.m in Sources */ = {isa = PBXBuildFile; fileRef = CDAAA3481EBA464E0098F48A /* Reminder.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -53,13 +54,15 @@
 		CD2ACF631EB8FF06005C1383 /* AddReminderViewControlla.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddReminderViewControlla.m; sourceTree = "<group>"; };
 		CD2ACF661EB906A2005C1383 /* LocationControlla.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocationControlla.h; path = ../LocationControlla.h; sourceTree = "<group>"; };
 		CD2ACF671EB906A2005C1383 /* LocationControlla.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocationControlla.m; path = ../LocationControlla.m; sourceTree = "<group>"; };
-		CD2ACF691EB90704005C1383 /* LocationControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationControllerDelegate.h; sourceTree = "<group>"; };
+		CD2ACF691EB90704005C1383 /* LocationControllaDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationControllaDelegate.h; sourceTree = "<group>"; };
 		CD6602A01EB7B2D600883296 /* Carthage */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Carthage; sourceTree = "<group>"; };
 		CD6602A11EB7B2D600883296 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = Carthage/Build/iOS/Parse.framework; sourceTree = "<group>"; };
 		CD6602A21EB7B2D600883296 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = Carthage/Build/iOS/Bolts.framework; sourceTree = "<group>"; };
 		CD6602A91EB7C0C700883296 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		CD68EA951EB807BC0095DA34 /* CustomMKPinAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomMKPinAnnotationView.h; sourceTree = "<group>"; };
 		CD68EA961EB807BC0095DA34 /* CustomMKPinAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomMKPinAnnotationView.m; sourceTree = "<group>"; };
+		CDAAA3471EBA464E0098F48A /* Reminder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Reminder.h; path = model/Reminder.h; sourceTree = "<group>"; };
+		CDAAA3481EBA464E0098F48A /* Reminder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Reminder.m; path = model/Reminder.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +102,7 @@
 			children = (
 				CD12512B1EB7AC00008EE4F7 /* AppDelegate.h */,
 				CD12512C1EB7AC00008EE4F7 /* AppDelegate.m */,
+				CDAAA34A1EBA465A0098F48A /* model */,
 				CD2ACF651EB90670005C1383 /* controllers */,
 				CD68EA941EB7F1530095DA34 /* view */,
 				CD1251311EB7AC00008EE4F7 /* Main.storyboard */,
@@ -124,7 +128,7 @@
 			children = (
 				CD2ACF661EB906A2005C1383 /* LocationControlla.h */,
 				CD2ACF671EB906A2005C1383 /* LocationControlla.m */,
-				CD2ACF691EB90704005C1383 /* LocationControllerDelegate.h */,
+				CD2ACF691EB90704005C1383 /* LocationControllaDelegate.h */,
 				CD2ACF621EB8FF06005C1383 /* AddReminderViewControlla.h */,
 				CD2ACF631EB8FF06005C1383 /* AddReminderViewControlla.m */,
 				CD12512E1EB7AC00008EE4F7 /* HomeViewControlla.h */,
@@ -158,6 +162,15 @@
 			children = (
 			);
 			name = categories;
+			sourceTree = "<group>";
+		};
+		CDAAA34A1EBA465A0098F48A /* model */ = {
+			isa = PBXGroup;
+			children = (
+				CDAAA3471EBA464E0098F48A /* Reminder.h */,
+				CDAAA3481EBA464E0098F48A /* Reminder.m */,
+			);
+			name = model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -244,6 +257,7 @@
 				CD2ACF641EB8FF06005C1383 /* AddReminderViewControlla.m in Sources */,
 				CD12512D1EB7AC00008EE4F7 /* AppDelegate.m in Sources */,
 				CD12512A1EB7AC00008EE4F7 /* main.m in Sources */,
+				CDAAA3491EBA464E0098F48A /* Reminder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
