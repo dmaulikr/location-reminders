@@ -242,7 +242,7 @@
             NSLog(@"Failed to get reminders: Error %@",error.localizedDescription);
         }
         for (Reminder *reminder in objects) {
-            NSLog(@"Reminder Name: %@\nReminder Location: %@\nReminder Radius: %@", [reminder name], [reminder location], [reminder radius]);
+            NSLog(@"FETCH SUCCESSFUL: Reminder Name: %@\nReminder Location: %@\nReminder Radius: %@", [reminder name], [reminder location], [reminder radius]);
         }
     }];
     
