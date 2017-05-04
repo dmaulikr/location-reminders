@@ -11,7 +11,7 @@
 
 
 @import Parse;
-
+@import UserNotifications;
 @interface AppDelegate ()
 
 @end

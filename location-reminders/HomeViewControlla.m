@@ -218,9 +218,10 @@
 -(MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay{
     MKCircleRenderer *renderer = [[MKCircleRenderer alloc] initWithCircle:overlay];
     
-    [renderer setStrokeColor:[UIColor blueColor]];
-    [renderer setFillColor:[UIColor colorWithRed:0.93 green:0.84 blue:0.84 alpha:1.0]];
+    [renderer setStrokeColor:[UIColor grayColor]];
+    [renderer setFillColor:[UIColor greenColor]];
     [renderer setAlpha:0.5];
+    NSLog(@"Number of ovelays on map: %lu",(unsigned long)[[[self mapView] overlays] count]);
     return renderer;
 }
 
@@ -238,7 +239,7 @@
 
 
 
-#pragma PFFetchAllReminder 
+#pragma PFFetchAllReminders
 -(void)fetchReminders{
     PFQuery *remindersQuery = [PFQuery queryWithClassName:@"Reminder"];
     
@@ -247,9 +248,32 @@
             NSLog(@"Failed to get reminders: Error %@",error.localizedDescription);
         }
         for (Reminder *reminder in objects) {
-            NSLog(@"FETCH SUCCESSFUL: Reminder Name: %@\nReminder Location: %@\nReminder Radius: %@", [reminder name], [reminder location], [reminder radius]);
+            [self allRemindersToMap:reminder];
         }
     }];
+    
+}
+
+-(void)allRemindersToMap:(Reminder *)reminder{
+    BOOL hasAnnotation = NO;
+    for (MKCircle *overlay in self.mapView.overlays) {
+        if ((overlay.coordinate.latitude == reminder.location.latitude) && (overlay.coordinate.longitude == reminder.location.longitude)) {
+            hasAnnotation = YES;
+        }
+    }
+    if (!hasAnnotation) {
+        CGFloat radius = [[reminder radius] floatValue];
+        [[reminder location] latitude];
+        CLLocationCoordinate2DMake([[reminder location] latitude], [[reminder location] longitude]);
+        MKCircle *circle = [MKCircle circleWithCenterCoordinate:CLLocationCoordinate2DMake([[reminder location] latitude], [[reminder location] longitude]) radius:radius];
+        [[self mapView] addOverlay:circle];
+    }
+    
+    
+    
+    
+    
+    
     
 }
 @end
