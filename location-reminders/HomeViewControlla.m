@@ -87,7 +87,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [[self navigationItem] setTitle:@"Location Reminders"];
+    [[self navigationItem] setTitle:@"Reminders"];
     [[self mapView] setDelegate: self];
     
     [[self mapView] setShowsUserLocation:YES];
