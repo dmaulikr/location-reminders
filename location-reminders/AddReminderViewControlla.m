@@ -18,26 +18,34 @@
 @implementation AddReminderViewControlla
 
 - (void)viewDidLoad {
-    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc]initWithTitle:@"Submit" style:UIBarButtonItemStyleDone target:self action:@selector(popViewControllerAnimated:)];
+    UIBarButtonItem *submitButton = [[UIBarButtonItem alloc]initWithTitle:@"Submit" style:UIBarButtonItemStyleDone target:self action:@selector(submitButtonTapped)];
     
-    [[self navigationItem] setRightBarButtonItem:doneButton];
+    [[self navigationItem] setRightBarButtonItem:submitButton];
     [super viewDidLoad];
-
-    
     // Do any additional setup after loading the view.
 }
 
--(void)dismissAddReminderViewControlla {
-    [[self navigationController] popViewControllerAnimated:YES];
+
+
+
+
+-(void)submitButtonTapped{
+    if ([self.reminderName hasText] && [self.reminderRadius hasText]) {
+        [self createReminder];
+        [[self navigationController] popViewControllerAnimated:YES];
+    }
+    
 }
 
 
 -(void)createReminder{
     Reminder *reminder = [Reminder object];
     
-    reminder.name = self.annotationTitle;
+    reminder.name = [[self reminderName]text];
     reminder.location = [PFGeoPoint geoPointWithLatitude:self.coordinate.latitude longitude:self.coordinate.longitude];
+    reminder.radius = [self toNumberFromString:[[self reminderRadius] text]];
     
+
     [reminder saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         if (succeeded) {
             NSLog(@"Reminder successfully saved: title %@",reminder.name);
@@ -47,10 +55,19 @@
             NSLog(@"Failed to save reminder: Error %@",error.localizedDescription);
         }
         if ([self completion]) {
-            CGFloat radius = 100; //for lab; radius comes from user
+            CGFloat radius = [[reminder radius] floatValue] ; //for lab; radius comes from user
             MKCircle *circle = [MKCircle circleWithCenterCoordinate:self.coordinate radius:radius];
             self.completion(circle);
         }
     }];
 }
+
+#pragma NSString to NSNumber formatter
+
+-(NSNumber *)toNumberFromString:(NSString *)string{
+    NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc]init];
+    [numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
+    return [numberFormatter numberFromString:string];
+}
+
 @end

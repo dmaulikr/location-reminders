@@ -16,12 +16,14 @@
 
 #import "LocationControlla.h"
 
+#import "Reminder.h"
+
 
 @import Parse;
 @import MapKit;
+@import ParseUI;
 
-
-@interface HomeViewControlla () <MKMapViewDelegate, LocationControllaDelegate>
+@interface HomeViewControlla () <MKMapViewDelegate, LocationControllaDelegate, PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate>
 
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
@@ -33,10 +35,9 @@
     if (sender.state == UIGestureRecognizerStateBegan) {
         CGPoint point = [sender locationInView:self.mapView];
         
-        CLLocationCoordinate2D coordinate = [self.mapView convertPoint:point toCoordinateFromView:self.view];
+        CLLocationCoordinate2D coordinate = [self.mapView convertPoint:point toCoordinateFromView:self.mapView];
         
         NSLog(@"The coordinate of tapped location: Lat:%f Lon: %f", coordinate.latitude, coordinate.longitude);
-        
         
         [self setCustomAnnotationsWithTitle:@"Reminder" andLatitude:coordinate.latitude AndLongitude:coordinate.longitude];
 
@@ -94,7 +95,20 @@
     [LocationControlla shared].delegate = self;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reminderSavedToParse:) name:@"ReminderSavedToParse" object:nil];
+    
+    if (![PFUser currentUser]) {
+        PFLogInViewController *loginViewControlla = [[PFLogInViewController alloc] init];
+        [loginViewControlla setFields: PFLogInFieldsLogInButton | PFLogInFieldsSignUpButton | PFLogInFieldsUsernameAndPassword | PFLogInFieldsPasswordForgotten | PFLogInFieldsFacebook];
+        [loginViewControlla setDelegate:self];
+        
+
+        [[loginViewControlla signUpController] setDelegate:self];
+        [self presentViewController:loginViewControlla animated:YES completion:nil];
+    }
+    [self fetchReminders];
 }
+
+
 
 -(void)reminderSavedToParse:(id)sender{
     NSLog(@"New reminder saved to Parse: %@",sender);
@@ -189,7 +203,8 @@
     }
     CustomMKPinAnnotationView *myAnnotationView = (CustomMKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:@"annotation"];
     if (!myAnnotationView){
-        myAnnotationView = [[CustomMKPinAnnotationView alloc] initWithTitle:annotation.title withAnnotation:annotation];
+        //Random color generator
+        myAnnotationView = [[CustomMKPinAnnotationView alloc] initWithTitle:annotation.title withAnnotation:annotation andTintColor:[UIColor colorWithHue:drand48() saturation:1.0 brightness:1.0 alpha:1.0]];
     }
     [myAnnotationView setAnimatesDrop:YES];
     return myAnnotationView;
@@ -199,10 +214,37 @@
     MKCircleRenderer *renderer = [[MKCircleRenderer alloc] initWithCircle:overlay];
     
     [renderer setStrokeColor:[UIColor blueColor]];
-    [renderer setFillColor:[UIColor redColor]];
+    [renderer setFillColor:[UIColor colorWithRed:0.93 green:0.84 blue:0.84 alpha:1.0]];
     [renderer setAlpha:0.5];
     return renderer;
 }
 
+#pragma PFLoginViewControllerDelegate
 
+-(void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+#pragma PFSignUpViewControllerDelegate
+-(void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(PFUser *)user{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+
+
+
+
+#pragma PFFetchAllReminder 
+-(void)fetchReminders{
+    PFQuery *remindersQuery = [PFQuery queryWithClassName:@"Reminder"];
+    
+    [remindersQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"Failed to get reminders: Error %@",error.localizedDescription);
+        }
+        for (Reminder *reminder in objects) {
+            NSLog(@"Reminder Name: %@\nReminder Location: %@\nReminder Radius: %@", [reminder name], [reminder location], [reminder radius]);
+        }
+    }];
+    
+}
 @end
