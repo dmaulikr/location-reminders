@@ -11,7 +11,7 @@
 
 @implementation CustomMKPinAnnotationView
 
--(instancetype)initWithTitle:(NSString *)title withAnnotation:(id)annotation{
+-(instancetype)initWithTitle:(NSString *)title withAnnotation:(id)annotation andTintColor:(UIColor *)color{
     self = [super initWithAnnotation:annotation reuseIdentifier:@"annotation"];
 
     if (self) {
@@ -19,6 +19,7 @@
         self.annotation = annotation;
         self.canShowCallout = YES;
         self.draggable = NO;
+        self.pinTintColor = color;
         [self setUpInfoButton];
     }
     return self;

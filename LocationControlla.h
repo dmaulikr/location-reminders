@@ -7,11 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "LocationControllerDelegate.h"
+#import "LocationControllaDelegate.h"
 @import CoreLocation;
 
 @interface LocationControlla : NSObject
-@property (weak, nonatomic) id <LocationControllerDelegate> delegate;
+@property (weak, nonatomic) id <LocationControllaDelegate> delegate;
 
 +(instancetype)shared;
 -(void)requestPermissions;

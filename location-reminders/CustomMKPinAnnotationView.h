@@ -11,5 +11,5 @@
 @interface CustomMKPinAnnotationView : MKPinAnnotationView
 
 
--(instancetype)initWithTitle:(NSString *)title withAnnotation:(id)annotation;
+-(instancetype)initWithTitle:(NSString *)title withAnnotation:(id)annotation andTintColor:(UIColor *)color;
 @end
