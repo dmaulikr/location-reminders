@@ -105,6 +105,10 @@
         [[loginViewControlla signUpController] setDelegate:self];
         [self presentViewController:loginViewControlla animated:YES completion:nil];
     }
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
     [self fetchReminders];
 }
 
@@ -242,7 +246,7 @@
             NSLog(@"Failed to get reminders: Error %@",error.localizedDescription);
         }
         for (Reminder *reminder in objects) {
-            NSLog(@"Reminder Name: %@\nReminder Location: %@\nReminder Radius: %@", [reminder name], [reminder location], [reminder radius]);
+            NSLog(@"FETCH SUCCESSFUL: Reminder Name: %@\nReminder Location: %@\nReminder Radius: %@", [reminder name], [reminder location], [reminder radius]);
         }
     }];
     

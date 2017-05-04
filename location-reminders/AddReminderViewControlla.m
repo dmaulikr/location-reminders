@@ -43,6 +43,8 @@
     
     reminder.name = [[self reminderName]text];
     reminder.location = [PFGeoPoint geoPointWithLatitude:self.coordinate.latitude longitude:self.coordinate.longitude];
+    
+    
     reminder.radius = [self toNumberFromString:[[self reminderRadius] text]];
     
 
