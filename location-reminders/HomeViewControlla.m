@@ -105,6 +105,10 @@
         [[loginViewControlla signUpController] setDelegate:self];
         [self presentViewController:loginViewControlla animated:YES completion:nil];
     }
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
     [self fetchReminders];
 }
 
