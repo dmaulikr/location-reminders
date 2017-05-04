@@ -27,6 +27,8 @@
 
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
+@property (strong, nonatomic) NSMutableArray *locationOverlays;
+@property (weak, nonatomic) IBOutlet UISwitch *hideAndShowSwitch;
 
 @end
 
@@ -41,6 +43,16 @@
         
         [self setCustomAnnotationsWithTitle:@"Reminder" andLatitude:coordinate.latitude AndLongitude:coordinate.longitude];
 
+    }
+}
+- (IBAction)hideAndShowReminders:(UISwitch *)sender {
+    if([sender isOn]){
+        [self.mapView addOverlays:self.locationOverlays];
+        NSLog(@"ON Overlaycount: %lu",(unsigned long)[[[self mapView] overlays] count]);
+    } else {
+//        self.locationOverlays = [[self.mapView overlays] copy];
+        [self.mapView removeOverlays:self.mapView.overlays];
+        NSLog(@"OFF");
     }
 }
 
@@ -91,14 +103,14 @@
     [[self mapView] setDelegate: self];
     
     [[self mapView] setShowsUserLocation:YES];
-
+    self.locationOverlays = [[NSMutableArray alloc] init];
     [LocationControlla shared].delegate = self;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reminderSavedToParse:) name:@"ReminderSavedToParse" object:nil];
     
     if (![PFUser currentUser]) {
         PFLogInViewController *loginViewControlla = [[PFLogInViewController alloc] init];
-        [loginViewControlla setFields: PFLogInFieldsLogInButton | PFLogInFieldsSignUpButton | PFLogInFieldsUsernameAndPassword | PFLogInFieldsPasswordForgotten | PFLogInFieldsFacebook];
+        [loginViewControlla setFields: PFLogInFieldsDefault | PFLogInFieldsFacebook];
         [loginViewControlla setDelegate:self];
         
 
@@ -109,7 +121,10 @@
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    [self fetchReminders];
+    if ([self locationOverlays].count == 0) {
+        [self fetchReminders];
+    }
+    
 }
 
 
@@ -144,7 +159,9 @@
             //Make the reference to the home vc strong for the scope of this block.
             __strong typeof(bruce) hulk = bruce;
             [[hulk mapView] removeAnnotation:annotationView.annotation];
-            [[hulk mapView] addOverlay:circle];
+//            [[hulk mapView] addOverlay:circle];
+            [hulk.locationOverlays addObject:circle];
+            [hulk hideAndShowReminders:hulk.hideAndShowSwitch];
             
         };
     }
@@ -188,6 +205,7 @@
         annotation = [[MKPointAnnotation alloc] init];
         [annotation setCoordinate: coordinates];
         [annotation setTitle: title];
+        
         [[self mapView] addAnnotation:annotation];
     }
     [[self mapView] selectAnnotation:annotation animated:YES];
@@ -219,9 +237,8 @@
     MKCircleRenderer *renderer = [[MKCircleRenderer alloc] initWithCircle:overlay];
     
     [renderer setStrokeColor:[UIColor grayColor]];
-    [renderer setFillColor:[UIColor greenColor]];
+    [renderer setFillColor:[UIColor colorWithHue:drand48() saturation:1.0 brightness:1.0 alpha:1.0]];
     [renderer setAlpha:0.5];
-    NSLog(@"Number of ovelays on map: %lu",(unsigned long)[[[self mapView] overlays] count]);
     return renderer;
 }
 
@@ -266,14 +283,10 @@
         [[reminder location] latitude];
         CLLocationCoordinate2DMake([[reminder location] latitude], [[reminder location] longitude]);
         MKCircle *circle = [MKCircle circleWithCenterCoordinate:CLLocationCoordinate2DMake([[reminder location] latitude], [[reminder location] longitude]) radius:radius];
-        [[self mapView] addOverlay:circle];
+        [self.locationOverlays addObject:circle];
+        [self hideAndShowReminders:self.hideAndShowSwitch];
+//        [[self mapView] addOverlay:circle];
     }
-    
-    
-    
-    
-    
-    
     
 }
 @end
