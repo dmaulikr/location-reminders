@@ -141,6 +141,7 @@
         //This is used only when refencing self in the completion block; Avoid retain cycle (circular reference)
         __weak typeof(self) bruce = self;
         destinationController.completion = ^(MKCircle *circle) {
+            //Make the reference to the home vc strong for the scope of this block.
             __strong typeof(bruce) hulk = bruce;
             [[hulk mapView] removeAnnotation:annotationView.annotation];
             [[hulk mapView] addOverlay:circle];
