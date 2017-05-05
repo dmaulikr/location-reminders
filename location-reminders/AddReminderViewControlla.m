@@ -8,6 +8,7 @@
 
 #import "AddReminderViewControlla.h"
 #import "Reminder.h"
+#import "LocationControlla.h"
 
 @interface AddReminderViewControlla ()
 @property (weak, nonatomic) IBOutlet UITextField *reminderName;
@@ -34,7 +35,6 @@
         [self createReminder];
         [[self navigationController] popViewControllerAnimated:YES];
     }
-    
 }
 
 
@@ -59,6 +59,10 @@
         if ([self completion]) {
             CGFloat radius = [[reminder radius] floatValue] ; //for lab; radius comes from user
             MKCircle *circle = [MKCircle circleWithCenterCoordinate:self.coordinate radius:radius];
+            if ([CLLocationManager isMonitoringAvailableForClass:[CLCircularRegion class]]) {
+                CLCircularRegion *region = [[CLCircularRegion alloc]initWithCenter:self.coordinate radius:[reminder.radius doubleValue] identifier:reminder.name];
+                [[LocationControlla shared] startMonitoringForRegion:region];
+            }
             self.completion(circle);
         }
     }];

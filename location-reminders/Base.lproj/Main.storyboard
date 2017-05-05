@@ -66,8 +66,19 @@
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="SQc-LZ-ip6" secondAttribute="bottom" constant="27" id="rQC-aI-mCq"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="ard-oj-Xuw"/>
+                    <navigationItem key="navigationItem" id="ard-oj-Xuw">
+                        <barButtonItem key="rightBarButtonItem" title="Show/Hide Reminders" style="plain" id="6eV-5l-7oo">
+                            <switch key="customView" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="PYE-VV-d0b">
+                                <rect key="frame" x="310" y="6" width="51" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="hideAndShowReminders:" destination="BYZ-38-t0r" eventType="valueChanged" id="ZRb-Dd-lcP"/>
+                                </connections>
+                            </switch>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="hideAndShowSwitch" destination="PYE-VV-d0b" id="7in-MU-De9"/>
                         <outlet property="mapView" destination="3nm-6e-ou8" id="jZf-T6-d2B"/>
                         <segue destination="fSw-d9-wwz" kind="show" identifier="AddReminderViewControlla" id="Gnf-oj-cAq"/>
                     </connections>

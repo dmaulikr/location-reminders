@@ -27,6 +27,8 @@
 
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
+@property (strong, nonatomic) NSMutableArray *locationOverlays;
+@property (weak, nonatomic) IBOutlet UISwitch *hideAndShowSwitch;
 
 @end
 
@@ -41,6 +43,16 @@
         
         [self setCustomAnnotationsWithTitle:@"Reminder" andLatitude:coordinate.latitude AndLongitude:coordinate.longitude];
 
+    }
+}
+- (IBAction)hideAndShowReminders:(UISwitch *)sender {
+    if([sender isOn]){
+        [self.mapView addOverlays:self.locationOverlays];
+        NSLog(@"ON Overlaycount: %lu",(unsigned long)[[[self mapView] overlays] count]);
+    } else {
+//        self.locationOverlays = [[self.mapView overlays] copy];
+        [self.mapView removeOverlays:self.mapView.overlays];
+        NSLog(@"OFF");
     }
 }
 
@@ -87,18 +99,18 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [[self navigationItem] setTitle:@"Location Reminders"];
+    [[self navigationItem] setTitle:@"Reminders"];
     [[self mapView] setDelegate: self];
     
     [[self mapView] setShowsUserLocation:YES];
-
+    self.locationOverlays = [[NSMutableArray alloc] init];
     [LocationControlla shared].delegate = self;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reminderSavedToParse:) name:@"ReminderSavedToParse" object:nil];
     
     if (![PFUser currentUser]) {
         PFLogInViewController *loginViewControlla = [[PFLogInViewController alloc] init];
-        [loginViewControlla setFields: PFLogInFieldsLogInButton | PFLogInFieldsSignUpButton | PFLogInFieldsUsernameAndPassword | PFLogInFieldsPasswordForgotten | PFLogInFieldsFacebook];
+        [loginViewControlla setFields: PFLogInFieldsDefault | PFLogInFieldsFacebook];
         [loginViewControlla setDelegate:self];
         
 
@@ -109,7 +121,10 @@
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    [self fetchReminders];
+    if ([self locationOverlays].count == 0) {
+        [self fetchReminders];
+    }
+    
 }
 
 
@@ -141,9 +156,12 @@
         //This is used only when refencing self in the completion block; Avoid retain cycle (circular reference)
         __weak typeof(self) bruce = self;
         destinationController.completion = ^(MKCircle *circle) {
+            //Make the reference to the home vc strong for the scope of this block.
             __strong typeof(bruce) hulk = bruce;
             [[hulk mapView] removeAnnotation:annotationView.annotation];
-            [[hulk mapView] addOverlay:circle];
+//            [[hulk mapView] addOverlay:circle];
+            [hulk.locationOverlays addObject:circle];
+            [hulk hideAndShowReminders:hulk.hideAndShowSwitch];
             
         };
     }
@@ -187,6 +205,7 @@
         annotation = [[MKPointAnnotation alloc] init];
         [annotation setCoordinate: coordinates];
         [annotation setTitle: title];
+        
         [[self mapView] addAnnotation:annotation];
     }
     [[self mapView] selectAnnotation:annotation animated:YES];
@@ -217,8 +236,8 @@
 -(MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay{
     MKCircleRenderer *renderer = [[MKCircleRenderer alloc] initWithCircle:overlay];
     
-    [renderer setStrokeColor:[UIColor blueColor]];
-    [renderer setFillColor:[UIColor colorWithRed:0.93 green:0.84 blue:0.84 alpha:1.0]];
+    [renderer setStrokeColor:[UIColor grayColor]];
+    [renderer setFillColor:[UIColor colorWithHue:drand48() saturation:1.0 brightness:1.0 alpha:1.0]];
     [renderer setAlpha:0.5];
     return renderer;
 }
@@ -237,7 +256,7 @@
 
 
 
-#pragma PFFetchAllReminder 
+#pragma PFFetchAllReminders
 -(void)fetchReminders{
     PFQuery *remindersQuery = [PFQuery queryWithClassName:@"Reminder"];
     
@@ -246,9 +265,28 @@
             NSLog(@"Failed to get reminders: Error %@",error.localizedDescription);
         }
         for (Reminder *reminder in objects) {
-            NSLog(@"FETCH SUCCESSFUL: Reminder Name: %@\nReminder Location: %@\nReminder Radius: %@", [reminder name], [reminder location], [reminder radius]);
+            [self allRemindersToMap:reminder];
         }
     }];
+    
+}
+
+-(void)allRemindersToMap:(Reminder *)reminder{
+    BOOL hasAnnotation = NO;
+    for (MKCircle *overlay in self.mapView.overlays) {
+        if ((overlay.coordinate.latitude == reminder.location.latitude) && (overlay.coordinate.longitude == reminder.location.longitude)) {
+            hasAnnotation = YES;
+        }
+    }
+    if (!hasAnnotation) {
+        CGFloat radius = [[reminder radius] floatValue];
+        [[reminder location] latitude];
+        CLLocationCoordinate2DMake([[reminder location] latitude], [[reminder location] longitude]);
+        MKCircle *circle = [MKCircle circleWithCenterCoordinate:CLLocationCoordinate2DMake([[reminder location] latitude], [[reminder location] longitude]) radius:radius];
+        [self.locationOverlays addObject:circle];
+        [self hideAndShowReminders:self.hideAndShowSwitch];
+//        [[self mapView] addOverlay:circle];
+    }
     
 }
 @end
